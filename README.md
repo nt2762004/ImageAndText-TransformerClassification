@@ -11,6 +11,7 @@ Dự án làm việc trên 2 bộ dữ liệu chính:
 ```
 ├── TransformerEncoder_ImageClassification.ipynb  # Notebook phân loại ảnh với Vision Transformer (ViT)
 ├── TransformerEncoder_TextClassification.ipynb   # Notebook phân loại văn bản tiếng Việt với Transformer
+├── TransformerEncoder_MultiTask.ipynb            # Notebook đa nhiệm (Ảnh & Văn bản) với kiến trúc thống nhất
 ├── README.md                                     # File mô tả dự án
 ├── data/                                         # Thư mục chứa dữ liệu CIFAR-10 (được tạo tự động sau khi chạy)
 └── TextData/                                     # Thư mục chứa dữ liệu văn bản tiếng Việt
@@ -60,6 +61,18 @@ Notebook này áp dụng kiến trúc Transformer Encoder để phân loại ch�
         *   Lưu lại mô hình tốt nhất (`transformer_text_classification.pth`).
     *   **Dự đoán (Inference):**
         *   Thử nghiệm dự đoán trên các câu tiếng Việt mẫu thuộc nhiều chủ đề khác nhau.
+
+### 3. `TransformerEncoder_MultiTask.ipynb` (Đa Nhiệm: Ảnh & Văn bản)
+Notebook này hợp nhất hai tác vụ trên vào một file duy nhất, sử dụng một kiến trúc mô hình linh hoạt có thể chuyển đổi giữa xử lý ảnh và văn bản.
+
+*   **Mục tiêu:** Minh họa tính đa năng của kiến trúc Transformer Encoder (có thể xử lý nhiều loại dữ liệu khác nhau miễn là chúng được chuyển về dạng chuỗi vector).
+*   **Điểm nổi bật:**
+    *   **Kiến trúc Thống nhất (Unified Architecture):** Sử dụng cùng một `TransformerEncoder` làm nòng cốt (backbone) cho cả hai tác vụ.
+    *   **Embedding dạng Mô-đun:**
+        *   `PatchEmbedding`: Dùng cho ảnh (Vision Transformer).
+        *   `TextEmbedding`: Dùng cho văn bản (NLP).
+    *   **Cấu hình Linh hoạt:** Dễ dàng chuyển đổi bài toán bằng cách thay đổi biến `TASK_TYPE` ('image' hoặc 'text').
+    *   **Quy trình chuẩn hóa:** Tích hợp toàn bộ quy trình từ Tải dữ liệu -> Huấn luyện -> Đánh giá -> Dự đoán trong một luồng xử lý gọn gàng.
 
 ## Yêu cầu cài đặt
 
