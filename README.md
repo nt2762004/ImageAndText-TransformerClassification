@@ -1,3 +1,89 @@
+# Image and Text Classification using Transformer Encoder
+
+This project includes Python source codes (Jupyter Notebooks) to demonstrate the application of the **Transformer Encoder** architecture (the core of models like BERT, ViT) for two basic deep learning tasks: Image Classification and Text Classification.
+
+The project works on 2 main datasets:
+1.  **CIFAR-10 Data** (Standard image dataset used in machine learning, downloaded automatically via `torchvision`).
+2.  **TextData** (Vietnamese text dataset classified into many topics like Music, Food, Real Estate...).
+
+## Directory Structure
+
+```
+├── TransformerEncoder_ImageClassification.ipynb  # Notebook for image classification with Vision Transformer (ViT)
+├── TransformerEncoder_TextClassification.ipynb   # Notebook for Vietnamese text classification with Transformer
+├── TransformerEncoder_MultiTask.ipynb            # Multi-task notebook (Image & Text) with unified architecture
+├── README.md                                     # Project description file
+├── data/                                         # Folder containing CIFAR-10 data (created automatically after running)
+└── TextData/                                     # Folder containing Vietnamese text data
+    ├── Am nhac/
+    ├── Am thuc/
+    ├── Bat dong san/
+    └── ...
+```
+
+### 1. `TransformerEncoder_ImageClassification.ipynb` (Image Classification)
+This notebook builds a model inspired by **Vision Transformer (ViT)** to classify images on the CIFAR-10 dataset.
+
+*   **Goal:** Understand how Transformer processes image data by splitting images into small "patches".
+*   **Main steps:**
+    *   **Preprocessing:**
+        *   Data Augmentation: RandomCrop, RandomHorizontalFlip.
+        *   Image data normalization.
+    *   **Patch Embedding:**
+        *   Split input image (64x64) into small patches (e.g., 4x4).
+        *   Project these patches into vector space (Embedding) and add position information (Positional Embedding).
+    *   **Modeling:**
+        *   Use `nn.TransformerEncoder` of PyTorch.
+        *   Use a special token `[CLS]` to represent the whole image for classification.
+    *   **Training & Evaluation:**
+        *   Use `CrossEntropyLoss` loss function and `AdamW` optimizer.
+        *   Evaluate Accuracy on the test set.
+    *   **Prediction:** Show images and predicted labels visually.
+
+### 2. `TransformerEncoder_TextClassification.ipynb` (Text Classification)
+This notebook applies Transformer Encoder architecture to classify topics of Vietnamese text paragraphs.
+
+*   **Goal:** Build a strong text classification model that can understand context better than traditional RNN/LSTM.
+*   **Main steps:**
+    *   **Data Loading:**
+        *   Read `.txt` files (utf-16 encoding) from `TextData` folder.
+        *   Automatically label based on the folder name containing the file.
+    *   **Text Processing:**
+        *   **Tokenization:** Split text into words/tokens.
+        *   **Vocabulary:** Build a dictionary and map words to indexes.
+        *   **Padding/Truncating:** Bring sentences to a fixed length (`MAX_LEN`).
+    *   **Modeling:**
+        *   **Embedding Layer:** Convert word index to vector.
+        *   **Transformer Encoder:** Process vector sequence to extract context features.
+        *   **Attention Pooling:** Use Attention mechanism to aggregate information from important words instead of just taking the average (Mean Pooling).
+    *   **Training:**
+        *   Use **Early Stopping** mechanism to prevent Overfitting.
+        *   Save the best model (`transformer_text_classification.pth`).
+    *   **Inference:**
+        *   Test prediction on sample Vietnamese sentences belonging to many different topics.
+
+### 3. `TransformerEncoder_MultiTask.ipynb` (Multi-Task: Image & Text)
+This notebook combines the two tasks above into a single file, using a flexible model architecture that can switch between image and text processing.
+
+*   **Goal:** Show the versatility of Transformer Encoder architecture (can process many types of data as long as they are converted to vector sequences).
+*   **Highlights:**
+    *   **Unified Architecture:** Use the same `TransformerEncoder` as the core (backbone) for both tasks.
+    *   **Modular Embedding:**
+        *   `PatchEmbedding`: Used for images (Vision Transformer).
+        *   `TextEmbedding`: Used for text (NLP).
+    *   **Flexible Configuration:** Easily switch problems by changing the `TASK_TYPE` variable ('image' or 'text').
+    *   **Standardized Workflow:** Integrate the whole process from Data Loading -> Training -> Evaluation -> Prediction in a clean flow.
+
+## Installation Requirements
+
+To run the notebooks, you need to install the following Python libraries:
+
+```bash
+pip install torch torchvision torchtext scikit-learn tqdm matplotlib numpy datasets
+```
+
+---
+
 # Phân loại Ảnh và Văn bản sử dụng Transformer Encoder
 
 Dự án này bao gồm các mã nguồn Python (Jupyter Notebooks) để minh họa việc áp dụng kiến trúc **Transformer Encoder** (cốt lõi của các mô hình như BERT, ViT) cho hai bài toán học sâu cơ bản: Phân loại ảnh (Image Classification) và Phân loại văn bản (Text Classification).
@@ -81,4 +167,3 @@ Notebook này hợp nhất hai tác vụ trên vào một file duy nhất, sử 
 ```bash
 pip install torch torchvision torchtext scikit-learn tqdm matplotlib numpy datasets
 ```
-*Lưu ý: Cần cài đặt phiên bản PyTorch phù hợp với CUDA nếu muốn sử dụng GPU.*
